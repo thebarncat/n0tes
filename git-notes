@@ -1,0 +1,13 @@
+https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/#platform-linux
+git remote add origin https://kippjimmy@github.com/kippjimmy/playbooks.git
+git remote  -v
+git config --global user.name "kippjimmy"
+git config --global user.email kippjimmy@yahoo.com
+git config --global core.editor vim
+# get config params
+git config --list
+# cache https credentials so dont need to keep typing in
+https://help.github.com/articles/caching-your-github-password-in-git/#platform-linux
+git config --global credential.helper 'cache --timeout=3600'
+# get help on a command
+git help commit
