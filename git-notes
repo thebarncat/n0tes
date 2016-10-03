@@ -9,6 +9,7 @@ git config --global core.editor vim
 git config --list
 # cache https credentials so dont need to keep typing in
 https://help.github.com/articles/caching-your-github-password-in-git/#platform-linux
+# need at least version 1.7.10
 git config --global credential.helper 'cache --timeout=3600'
 # get help on a command
 git help commit
