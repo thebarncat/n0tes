@@ -1,1 +1,2 @@
-# n0tes
+# git notes 
+git is fun
