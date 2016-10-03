@@ -2,7 +2,6 @@ https://help.github.com/articles/adding-an-existing-project-to-github-using-the-
 git remote add origin https://thebarncat@github.com/kippjimmy/playbooks.git
 git remote  -v
 # git config --global user.name "kippjimmy"
-# changed username 
 git config --global user.name "thebarncat"
 git config --global user.email kippjimmy@yahoo.com
 git config --global core.editor vim
