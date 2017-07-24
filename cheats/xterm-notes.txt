@@ -1,0 +1,2 @@
+xterm -title $XWINLOGFILE
+dont need the -ls when ssh to servers but it won't hurt
