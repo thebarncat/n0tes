@@ -1,9 +1,0 @@
-steps to create VPC with subnets access to internet:
-https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-subnets-commands-example.html
-1. create VPC and subnets
-2. create IGW and attach to the VPC
-3. create custom route table in VPC
-4. create a route to the IGW in that rout table destination 0.0.0.0
-5. associate route table with one or more of the VPC subnets
- 
-
