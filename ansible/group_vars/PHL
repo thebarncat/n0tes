@@ -1,0 +1,2 @@
+# phl region vars go here
+ntp_server: [phlntp1.kmhp.com, phlntp2.kmhp.com]

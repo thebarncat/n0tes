@@ -1,0 +1,12 @@
+---
+### apply common configuration to all hosts ###
+
+- hosts: '{{ host_grp }}'
+  become: true
+  #gather_facts: false
+  roles:
+    - common
+    - resolvconf
+  # - role: test
+  #   testvar: foo
+  

@@ -1,0 +1,36 @@
+---
+#- hosts: localhost
+# sample run:  ansible-playbook hello.yml -i ../inventory/sand --limit phldvlxsand001 | tee play.out
+- hosts: phldvlxsand001
+  vars:
+     inline_var: "HI!!"
+     myList: [1,2,3,4,3,2,5]
+  tasks:
+    #- shell: echo "hello newman" > hello.out
+    - shell: echo "hello newman"
+    - command: cat /etc/redhat-release 
+      register: os_level
+    #- debug: var=os_level
+    - debug: msg="os level -> {{ os_level.stdout }}"
+    - name: "get os level"
+      debug: msg="version {{ ansible_distribution_major_version }}"
+    - template:
+        # src: loop.j2
+        # set in all group vars:
+        # src: "{{ ansible_dir }}/templates/loop.j2"
+        src: /etc/ansible/templates/loop.j2
+        dest: /tmp/hello.txt
+  
+    - shell: echo "redhat 6 and later"
+      when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 6
+
+    - debug:  msg="print uniq list {{ myList | unique }}x"
+
+    - name: split lines 
+      vars:
+        Lines: |
+              Line 1 
+              Line 2 ->  {{ inventory_hostname }}.
+              Line 3 ->  {{ inventory_file }}.
+      debug: 
+        msg: "{{ Lines.split('\n') }}"

@@ -1,0 +1,26 @@
+---
+- hosts: '{{ host_grp }}'
+  become: true
+  tasks:
+    - name: Test DB Task
+      debug: msg="{{db_type}}"
+
+- name: Run Oracle Build PB
+  import_playbook: playbooks/oracle_build.yml
+  vars:
+    server_name: "{{ host_grp }}"
+
+- name: Run Logrotate Oracle listener 
+  import_playbook: playbooks/logrotate_ora.yml
+  vars:
+    server_name: "{{ host_grp }}"
+    logrotate_name: olistener
+    group: oinstall
+
+- name: Run Logrotate Oracle ordms
+  import_playbook: playbooks/logrotate_ora.yml
+  vars:
+    server_name: "{{ host_grp }}"
+    logrotate_name: ordms
+    group: asmadmin
+

@@ -1,0 +1,7 @@
+---
+# defaults file for common
+
+ansible_dir: /etc/ansible
+playbook_dir: /etc/ansible/playbooks
+
+

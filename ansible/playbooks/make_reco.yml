@@ -1,0 +1,12 @@
+---
+
+- hosts: DTS-SAND
+
+  tasks:
+  -  name: Creates directory
+    file:
+    path: /home/amhseed/recovery
+    state: directory
+    owner: amhseed
+    group: amhseed
+    mode: 0775

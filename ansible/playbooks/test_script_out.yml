@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  become: false
+
+  tasks:
+    - name: change or fail depend on output
+      shell: /tmp/testscript.sh 
+      register: testscript_result
+      changed_when: testscript_result.stdout.find('yup') != -1
+      #failed_when: testscript_result.stdout.find("nope") != -1
+      #failed_when: testscript_result.rc == 0
+      
+    - debug: msg="{{ testscript_result }}"
+
+    - set_fact: 
+        var1: "{{ testscript_result.stdout | to_json }}"
+
+    - debug: var=var1

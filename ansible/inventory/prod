@@ -1,0 +1,7 @@
+[control]
+phlprlxjmp001 ansible_connection=local
+
+[linuxadm]
+phlprlxjmp001
+phlprlxsand001
+

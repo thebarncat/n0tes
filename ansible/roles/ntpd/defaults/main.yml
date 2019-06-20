@@ -1,0 +1,4 @@
+---
+# vars will come from group_vars for PHL and RDG
+# ntp_server: [phlntp1.kmhp.com, phlntp2.kmhp.com]
+

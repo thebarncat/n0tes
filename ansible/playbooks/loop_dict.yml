@@ -1,0 +1,86 @@
+---
+ # https://chromatichq.com/blog/untangling-ansible-loops
+- hosts: phldvlxsand001
+  gather_facts: false
+  become: yes
+  vars:
+    # multi struct var
+    users_with_items:
+      - name: "alice"
+        personal_directories:
+         - "bob"
+         - "carol"
+         - "dan"
+      - name: "bob"
+        personal_directories:
+         - "alice"
+         - "carol"
+         - "dan"
+
+    common_directories:
+      - ".ssh"
+      - "bin"
+
+    users_with_dict:
+      carol: # key (item.key)
+        common_directories: "{{ common_directories }}" # ptr to other list as value
+      dan:
+        common_directories: "{{ common_directories }}"
+
+  tasks:
+      # first just create the users if not exist. this will not add personal dirs
+    - name: create users
+      user:
+        name: "{{ item.name }}"
+      with_items: "{{ users_with_items }}"
+
+    - name: create common users dirs
+      file:
+        # creates both dirs nested loop eg /home/alice/.ssh /home/alice/loops
+        dest: "/home/{{ item.0.name }}/{{ item.1 }}"
+        owner: "{{ item.0.name }}"
+        group: "{{ item.0.name }}"
+        state: directory
+      with_nested:
+        - "{{ users_with_items }}"
+        - "{{ common_directories }}"
+
+    - name: create personal users dir
+      file:
+        dest: "/home/{{ item.0.name }}/{{ item.1 }}"
+        owner: "{{ item.0.name }}"
+        group: "{{ item.0.name }}"
+        state: directory
+      # works same way as with_nested, except instead of second variable, it takes a variable and the key of another list contained in that variable
+      with_subelements:
+        - "{{ users_with_items }}"
+        - personal_directories
+
+    - name: create users using with_dict 
+      user:
+        name: "{{ item.key }}"  
+      # note that with_dict does not loop over the sub elements of the hash, so the 'common dirs' not created
+      # have to specify them
+      with_dict: "{{ users_with_dict }}"
+
+#  this section not working
+#     - name: get list of users  
+#       shell: "find * -type d -prune | sort"
+#       args: 
+#         chdir: "/home"
+#       register: "home_directories"
+#       # override: never report 'changed' status:
+#       changed_when: false
+
+#     - name: create personal users dirs if not exist 
+#       file:
+#         dest: "/home/{{ item.0.name }}/{{ item.1 }}"
+#         owner: "{{ item.0.name }}"
+#         group: "{{ item.0.name }}"
+#         state: directory
+#       with_nested:
+#         - "{{ home_directories.stdout_lines }}"
+#          # jinja2 filter creates union of the home dir name and the sub dirs ( common dirs ) into a single array
+#          # when clause prevents dir creation when the current item in home_directories.stdout_lines and the current item in union of home_directories.stdout_lines are identical 
+#         - "{{ home_directories.stdout_lines | union (common_directories) }}"
+#       when: "'{{ item.0 }}' != '{{ item.1 }}'"

@@ -1,0 +1,17 @@
+---
+- hosts: '{{ hosts }}'
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  tasks:
+    - name: httpd install
+      yum: name={{item}} state=latest
+      with_items:
+        - httpd 
+        - mod_ssl 
+
+  #  - name: appian install
+  #    appian-web pkg no longer exists
+  #    yum: name=appian-web state=latest enablerepo=local-middleware 
+
+# ansible-playbook --extra-vars "hosts=host"

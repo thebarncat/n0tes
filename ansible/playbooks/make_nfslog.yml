@@ -1,0 +1,13 @@
+---
+
+- hosts: TEST
+  become: true
+
+  tasks:
+  -  name: Create log file
+     file: 
+        dest: /tmp/zcheck_nfs2.ksh.log
+        state: touch
+        owner: pcapper
+        group: pcapper
+        mode: 0777

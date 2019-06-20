@@ -1,0 +1,68 @@
+---
+# run with -v to see shell ouput or use debug like below
+ - hosts: control
+#- hosts: LINUX-SAND
+  #become: true
+  vars:
+    foo: true
+    fuzz: false
+    bar: booz
+    tmp_dir: /tmp/xyz
+    list:
+      - stuff
+      - things
+
+  tasks:
+      # these are fact vars, need facts turned on to see
+    - debug: msg="running on {{ inventory_hostname }} on domain {{ ansible_domain }} now"
+    - shell: echo "foo set"
+      when: foo
+    - shell: echo "fuzz not set"
+      when: not fuzz
+    - shell: echo "we like '{{ bar }}'!"
+      when: bar is defined
+    - debug: msg="{{ bar }} -> value"
+
+    #- debug: msg="first item of list -> {{ list[0] }}"
+    - name: get list (array) element
+      debug: var=list[0]
+
+    - name: get all element of the list (array)
+      shell: echo "items of var list -> '{{ item }}'"
+      with_items: "{{ list }}"
+
+    - shell: echo "echo list '{{ item }}'"
+      register: r
+      with_items: "{{ list }}"
+
+    # dump everthing about this var including all meta info that we use below
+    #- debug: var=r 
+    # do stuff with the attributes of the "r" variable
+    #- debug: msg="item.item={{item.item}}, item.stdout={{item.stdout}}, item.changed={{item.changed}}"
+    #  with_items: "{{r.results}}"
+
+    - name: get items gt 5
+      command: echo {{ item }} 
+      with_items: [2,4,6,8]
+      when: item > 5
+
+    - name:  get files to link
+      command: ls /tmp/sourz
+      register: file2link
+
+    # again to see the meta info for this var to use later
+    #- debug: var=file2link  
+    - name: link the files
+      # should create subdir if not exists
+      file: path=/tmp/linkz/{{ item }} src=/tmp/sourz/{{ item }} state=link
+      with_items: "{{ file2link.stdout_lines }}"
+
+    - name: delete the links
+      file: path=/tmp/linkz/{{ item }} state=absent
+      with_items: "{{ file2link.stdout_lines }}"
+
+    - name: create dir
+      become: true
+      file: dest={{ tmp_dir }} mode=775 state=directory owner=jk24445
+      # do on all but phldvlxsand001 
+      when: inventory_hostname != "phldvlxsand001"

@@ -1,0 +1,27 @@
+---
+# check for snip in satellite, can get rid of when we run site.yml regularly
+#
+# *** NOTE***  
+# this play uses the all_linux hosts file which depends on the host specific vars in the host_vars dir ( for DMZ/sudo)
+# it will only see those vars if the host file being used is the one in the ansible.cfg file
+# do this: ln -sf /etc/ansible/inventory/all_linux hosts 
+# after done may switch back to master host file
+#
+# ANOther option is to set the ANSIBLE_CONFIG env var to a different file listing the host file you want
+# *** NOTE***  
+
+- hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: logrotate.conf config 1
+      replace:
+       path: /etc/logrotate.conf
+       regexp: '^rotate\s+(.*)$'
+       replace: 'rotate 4'
+    - name: logrotate.conf config 2
+      replace:
+       path: /etc/logrotate.conf
+       regexp: '^#(.*)compress$'
+       replace: 'compress'

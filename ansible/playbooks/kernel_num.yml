@@ -1,0 +1,12 @@
+---
+
+- hosts: CLUST_PROD
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: increase kernels saved
+      replace:
+       path: /etc/yum.conf
+       regexp: 'installonly_limit=3'
+       replace: 'installonly_limit=5'

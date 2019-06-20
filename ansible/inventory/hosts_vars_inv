@@ -1,0 +1,2 @@
+phldvlxsand001 os_level="RHEL 6.9"
+#ansible -m debug -a "var=os_level" phldvlxsand001  -i <file>

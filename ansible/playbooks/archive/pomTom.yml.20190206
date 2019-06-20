@@ -1,0 +1,17 @@
+---
+# apply proper permissions on tomcat dirs and restart tomcat for avaya POM servers
+- hosts: phldvlxpom002:phlprlxpom002:phlprlxpom003:phlprlxpom004:phlprlxpom005:rdgprlxpom001:rdgprlxpom002
+  become: true
+  tasks:
+    - name: chown dirs to tomcat.tomcat 
+      file: dest={{item}} owner=tomcat group=tomcat recurse=yes
+      with_items:
+        - /var/cache/tomcat
+        - /etc/tomcat
+        - /var/lib/tomcat
+      notify: restart_tomcat 
+
+  handlers:
+    - name: restart_tomcat
+      service: name=tomcat state=restarted
+

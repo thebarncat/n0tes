@@ -1,0 +1,8 @@
+- hosts: control
+  vars:
+    list1: ['Apple','Banana','Cat', 'Dog']
+  tasks:
+    - name: Template Loop example
+      template:
+        src:  "{{ansible_env.ANSIBLE_HOME}}/templates/example2.j2"
+        dest: /tmp/output.txt

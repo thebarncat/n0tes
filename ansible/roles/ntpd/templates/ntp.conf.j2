@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+#
+driftfile /var/lib/ntp/drift
+restrict default nomodify notrap nopeer noquery
+restrict 127.0.0.1
+restrict ::1
+server ntp.kmhp.com
+{% for i in ntp_server %}
+server {{ i }}
+{% endfor %}
+includefile /etc/ntp/crypto/pw
+keys /etc/ntp/keys
+disable monitor

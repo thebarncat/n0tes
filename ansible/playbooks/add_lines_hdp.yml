@@ -1,0 +1,13 @@
+---
+- hosts: SAND
+  become: TRUE
+  tasks:
+    - name: Insert first line.
+      lineinfile:
+        path: /etc/rc.local
+        line: 'echo never > /sys/kernel/mm/transparent_hugepage/defrag'
+
+    - name: Insert other line.
+      lineinfile:
+        path: /etc/rc.local
+        line: 'echo never > /sys/kernel/mm/transparent_hugepage/enabled'

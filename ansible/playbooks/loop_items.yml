@@ -1,0 +1,30 @@
+---
+- hosts: phldvlxsand001
+  become: yes
+  gather_facts: false
+  vars: 
+    MyList: [ user1, user2 ]
+
+  tasks:
+    - name: add users
+      user: name={{ item }} state=present groups=wheel
+      with_items: "{{ MyList }}"
+      # ansible 2.5:
+      # loop: "{{ MyList }}"
+
+    - name: remove them 
+      user: name={{ item }} state=absent remove=yes
+      with_items:
+        - user1
+        - user2
+
+    # using "loop" instead of with_items
+    - name: copy users  ssh keys
+      authorized_key:
+        user: "{{ item.user }}"
+        key: "{{ item.key }}"
+        state: "{{ item.state }}"
+        comment: "{{ item.comment }}"
+      loop:
+       - { user: 'jdo', key: "{{ lookup('file', '/tmp/test_temp_key.pub') }}" , state: 'present', comment: 'key' }
+       - { user: 'janed', key: "{{ lookup('file', '/tmp/vm_temp_key.pub') }}", state: 'absent', comment: 'key' }

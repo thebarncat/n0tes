@@ -1,0 +1,11 @@
+---
+ # ansible-playbook vars_files_test.yml  -e env=dev
+- hosts: localhost
+  vars_files:
+    # variable 'env' from group_vars/dev
+     - "../vars/{{ env }}.yml"
+  tasks:
+    # variable  from vars/dev.yml
+    #- name: variable precedence test
+     - debug: var=my_env
+     - debug: msg="playbook_dir => {{ playbook_dir }}"

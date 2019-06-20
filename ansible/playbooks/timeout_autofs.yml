@@ -1,0 +1,12 @@
+---
+
+- hosts: ORA_NONPROD
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: increase timeout
+      replace:
+       path: /etc/auto.master
+       regexp: '/export /etc/auto.export --timeout=60'
+       replace: '/export /etc/auto.export --timeout=600'

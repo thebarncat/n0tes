@@ -1,0 +1,6 @@
+---
+domain: "kmhp.com"
+dns_options: ["timeout:2", "attempts:1"]
+run_flush: 0
+#dns_sortlist: []
+#dns_searches: []

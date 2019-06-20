@@ -1,0 +1,35 @@
+---
+# ** site.yml: import playbooks that call roles that defines our infrastructure **
+
+## use either of these 2 below conventions 
+## use limits or change hosts line:  ansible-playbook site.yml --limit sand
+## ansible-playbook site.yml  -e "host_grp=<HOST_GRP>" # Preferred
+
+# general or other wise misc  configs. can be use for OS, apps, webservers etc
+- import_playbook: common.yml
+  tags:
+   - common
+
+# OS services configs
+- import_playbook: services.yml
+  tags:
+   - services
+
+# OS hardening 
+- import_playbook: harden.yml
+  tags:
+   - harden
+
+# DB post build - currently will only run this task on oracle hosts  
+- import_playbook: database.yml
+  when: "'ORACLE' in group_names" 
+  vars:
+    db_type: "oracle"
+  tags:
+   - database
+
+
+## 
+#- include: webservers.yml
+#- include: sybase.yml
+#- include: oracle.yml

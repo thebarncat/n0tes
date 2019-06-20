@@ -1,0 +1,28 @@
+---
+
+# https://access.redhat.com/solutions/3092881
+# https://opensource.com/article/18/3/ansible-patch-systems
+
+- hosts: all
+
+  tasks:
+    - name: reboot host
+      shell: sleep 10 && /sbin/shutdown -r now
+      #async: 300
+      async: 1 # avoid time out
+      poll: 0  # fire and forget
+      become: true
+
+    - name: wait for 10 seconds 
+      pause:
+      seconds: 10
+
+    - name: waiting for server connection 
+      local_action: wait_for
+      args:
+        host: ''
+        port: 22
+        delay: 30
+        timeout: 600
+        state: started
+      become: false

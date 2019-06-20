@@ -1,0 +1,10 @@
+---
+- name: clear_cache
+  command: /usr/sbin/adflush --dns
+  when: run_flush 
+  
+  # tags dont seem to work with handlers, handler should go in task file
+  # tags: run_handler 
+  # maybe try block: https://docs.ansible.com/ansible/latest/user_guide/playbooks_blocks.html
+  #
+  # check for details: /etc/ansible/playbooks/archive/resolv_conf_test_handler.yml

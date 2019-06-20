@@ -1,0 +1,66 @@
+# ansible -m debug -a "var=hostvars['phlprlxjmp001']" control
+
+phlprlxjmp001 | SUCCESS => {
+    "changed": false, 
+    "hostvars['phlprlxjmp001']": {
+        "ansible_check_mode": false, 
+        "ansible_connection": "local", 
+        "ansible_playbook_python": "/usr/bin/python2.6", 
+        "ansible_version": {
+            "full": "2.4.2.0", 
+            "major": 2, 
+            "minor": 4, 
+            "revision": 2, 
+            "string": "2.4.2.0"
+        }, 
+        "group_names": [
+            "control"
+        ], 
+        "groups": {
+            "RDG-NonPRD": [
+                "rdgdvlxsybeng001", 
+                "rdglablxoras001"
+            ], 
+            "all": [
+                "phlprlxjmp001", 
+                "phldvlxapnwb005", 
+                "rdgdvlxsybeng001", 
+                "rdglablxoras001", 
+                "phldvlxapnap005", 
+                "phldvlxsand001", 
+                "phlprlxsand001", 
+                "phltstlxsand001", 
+                "phlutlxsand001", 
+                "phlqa2lxapnwb05", 
+                "phlqa2lxapnwb06"
+            ], 
+            "appianQA": [
+                "phlqa2lxapnwb05", 
+                "phlqa2lxapnwb06"
+            ], 
+            "control": [
+                "phlprlxjmp001"
+            ], 
+            "rhel7-dev": [
+                "phldvlxapnwb005", 
+                "phldvlxapnap005"
+            ], 
+            "rhel7-dev-dmz": [
+                "phldvlxapnwb005"
+            ], 
+            "sand": [
+                "phldvlxsand001", 
+                "phlprlxsand001", 
+                "phltstlxsand001", 
+                "phlutlxsand001"
+            ], 
+            "ungrouped": []
+        }, 
+        "inventory_dir": "/etc/ansible", 
+        "inventory_file": "/etc/ansible/hosts", 
+        "inventory_hostname": "phlprlxjmp001", 
+        "inventory_hostname_short": "phlprlxjmp001", 
+        "omit": "__omit_place_holder__e98112eebecc8128c593679f2d2de411ceeda368", 
+        "playbook_dir": "/etc/ansible"
+    }
+}

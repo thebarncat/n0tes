@@ -1,0 +1,16 @@
+--
+option to keep handlers in one file 'handlers.yml' include the file in other roles handler dir/file
+see ARCHIVE/handlers.yml
+
+--
+
+## Example use of roles
+# roles/example/tasks/main.yml
+- name: added in 2.4, previously you used 'include'
+  import_tasks: redhat.yml
+  when: ansible_facts['os_family']|lower == 'redhat'
+
+# roles/example/tasks/redhat.yml
+- yum:
+    name: "httpd"
+    state: present

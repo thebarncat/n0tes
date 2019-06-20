@@ -1,0 +1,32 @@
+---
+
+- name: Check SEL  
+  command: /usr/sbin/getenforce
+  register: sel_status
+- name: Change SEL status if not right  
+  command: /usr/sbin/setenforce Permissive
+  when: sel_status.stdout != 'Permissive'
+
+- name: Check FIPS
+  command: /sbin/sysctl -n crypto.fips_enabled
+  register: fips_status
+- debug: msg="{{ inventory_hostname }} FIPS DISABLED!!"
+  when: fips_status.stdout != '1'
+
+- name: Check Syslog Forward to SPLUNK
+  stat:
+    path: /etc/rsyslog.d/splunk.conf
+  register: result
+- debug: msg="{{ inventory_hostname }} does NOT have syslog Splunk File!!"
+  when: result.stat.exists == False
+
+- name: Check For TRM ACCOUNT
+  command: id sch-trmscan
+  register: trm_status
+  failed_when: "'FAILED' in trm_status.stderr"
+- debug: msg="{{ inventory_hostname }} does NOT have TRM ACCOUNT!!"
+  when:  trm_status.rc == 1
+
+- name: Copy ISSUE File if Diff
+  copy: src=/etc/ansible/files/etc/issue dest=/etc/issue mode=0644
+

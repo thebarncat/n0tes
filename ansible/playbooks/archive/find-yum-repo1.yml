@@ -1,0 +1,19 @@
+---
+#- hosts: all
+- hosts: LINUX-SAND
+  become: true
+  gather_facts: false
+  tasks:
+  - name: find string 
+    shell: "yum repolist enabled| grep -i centrify" 
+    args:
+      warn: false
+    no_log: true # less verbose output 
+    register: wanted
+    ignore_errors: yes # if fails will keep going and not produce retry file
+
+  - name: if str NOT exists
+    debug: msg="Centrify Repo NOT found"
+    when: wanted.rc == 1
+
+

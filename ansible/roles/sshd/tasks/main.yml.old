@@ -1,0 +1,32 @@
+---
+- name: Check Native sshd_config file. Modify on diff  
+  lineinfile: 
+    path: /etc/ssh/sshd_config
+    state: present
+    regexp: '^PermitRootLogin'
+    line: 'PermitRootLogin forced-commands-only'
+   
+- lineinfile: 
+    path: /etc/ssh/sshd_config
+    state: present
+    regexp: '^IgnoreRhosts'
+    line: 'IgnoreRhosts yes'
+
+- lineinfile: 
+    path: /etc/ssh/sshd_config
+    state: present
+    regexp: '^UsePAM'
+    line: 'UsePAM yes'
+
+- lineinfile: 
+    path: /etc/ssh/sshd_config
+    state: present
+    regexp: '^ClientAliveInterval'
+    line: 'ClientAliveInterval 900'
+
+- lineinfile: 
+    path: /etc/ssh/sshd_config
+    state: present
+    regexp: '^Ciphers'
+    line: 'Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc'
+

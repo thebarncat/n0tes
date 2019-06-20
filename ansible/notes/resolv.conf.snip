@@ -1,0 +1,79 @@
+<%#
+kind: snippet
+name: resolv_update
+%>
+
+# Use this to update the /etc/resolv.conf file
+# The current DMZ subnets are:
+#   PHL: 10.7.0.x, 10.7.1., 10.7.40.x
+#   RDG: 10.5.112.x
+# Need to update the ifcfg-e* interface to comment out the ^DNS entries.
+# The PEERDNS value has been updated in the network snippet.
+# This is needed so NetworkManager will not update the /etc/resolv.conf on restart.
+
+ISDMZ="10.7.0.|10.7.1.|10.7.40.|10.5.112."
+RDG_SUB="10.5."
+if [ $(/sbin/ip addr | egrep -c $ISDMZ) -eq 0 ] #Not DMZ
+then
+    echo "Not a dmz server..."
+    if [ $(/sbin/ip addr | egrep -c $RDG_SUB) -eq 0 ] #Not RDG server, so PHL internal
+    then
+        echo "PHL internal..."
+cat > /etc/resolv.conf << EOF
+domain kmhp.com
+nameserver 10.0.24.217
+nameserver 10.0.49.217
+options rotate
+options timeout:2
+options attempts:1 
+EOF
+    elif [ $(/sbin/ip addr | egrep -c $RDG_SUB) -eq 1 ] #Not PHL server, so RDG internal
+    then
+        echo "RDG internal..."
+cat > /etc/resolv.conf << EOF
+domain kmhp.com
+nameserver 10.5.74.217
+nameserver 10.5.77.217
+options rotate
+options timeout:2
+options attempts:1
+EOF
+    else
+        echo "Unknown error when trying to determine the proper nameservers to use..."
+    fi
+elif [ $(/sbin/ip addr | egrep -c $ISDMZ) -eq 1 ] #DMZ
+then
+    echo "DMZ server..."
+	if [ $(/sbin/ip addr | egrep -c $RDG_SUB) -eq 0 ] #Not RDG server, so PHL DMZ
+	then
+	    echo "PHL DMZ..."
+cat > /etc/resolv.conf << EOF
+domain kmhp.com
+nameserver 10.7.0.38
+nameserver 10.5.112.16
+options rotate
+options timeout:2
+options attempts:1
+EOF
+	elif [ $(/sbin/ip addr | egrep -c $RDG_SUB) -eq 1 ] #Not PHL server, so RDG DMZ
+    then
+        echo "RDG DMZ..."
+cat > /etc/resolv.conf << EOF
+domain kmhp.com
+nameserver 10.5.112.16
+nameserver 10.7.0.38
+options rotate
+options timeout:2
+options attempts:1
+EOF
+	else
+        echo "Unknown error when trying to determine the proper DMZ nameservers to use..."
+    fi
+else
+	echo "Unknown error when trying to determine if this is a DMZ server or not..."
+fi
+
+# Commenting out the ^DNS entries in the all the ifcfg-e* files.
+echo "Commenting out the ^DNS entries in all the ifcfg-e* files..."
+sed -i 's/^DNS/#DNS/g' /etc/sysconfig/network-scripts/ifcfg-e*
+echo "Done with the update of the ifcfg-e* files..."

@@ -1,0 +1,8 @@
+---
+- hosts: TEST
+  become: TRUE
+  tasks:
+    - name: Insert a line at the end of a file.
+      lineinfile:
+        path: /etc/auto.export
+        line: dump -rw,soft,intr,rsize=32768,wsize=32768,nosuid,vers=3 phlprlxnfs002.kmhp.com:/export/dump

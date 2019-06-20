@@ -1,0 +1,16 @@
+---
+
+- hosts: phldvlxsand001
+  become: true
+  gather_facts: false
+  vars: 
+    # can override with -e 
+    user_name: userx
+    password: '$1$/X2.A$he.0L9CPhRIfBfZI6eZYa0'
+
+  tasks:
+    - name: change pw 
+      user: 
+        name: '{{user_name}}'
+        password: '{{ password }}'
+

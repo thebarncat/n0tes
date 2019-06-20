@@ -1,0 +1,43 @@
+---
+
+#  THIS IS A ROLE NOW
+
+- hosts: phlqalxapig001
+  become: true
+  gather_facts: false
+
+  # Because we have multiple sets of name servers, the template will reference 
+  # the group_vars files for each group instead of vars section here:
+  #vars:
+  #  name_server: [10.0.24.217,10.0.49.217,10.5.74.217]
+ 
+  tasks:
+    - debug: var=name_server
+    - name: copy template 
+      template: 
+           src=/etc/ansible/templates/resolv.conf.j2 dest=/etc/resolv.conf 
+           owner=root group=root mode=0644
+           backup=yes
+     # notify: clear_cache
+     #force handler even if notify not set because task is done
+     #changed_when: true
+
+    # this wont work for some DMZ
+    - name: sanity check 
+      command: /usr/bin/host {{ inventory_hostname }}
+
+    - name: check and ..  
+      command: "grep -q rotate /etc/resolv.conf"
+      register: wanted
+      no_log: true
+      ignore_errors: yes
+    - name: validate  
+      debug: msg="wanted  set"
+      when:  wanted.rc == 0
+
+#   handlers:
+#     - name: clear_cache
+#       command: /usr/sbin/adflush --dns
+#   tags: 
+#      - run_handler
+

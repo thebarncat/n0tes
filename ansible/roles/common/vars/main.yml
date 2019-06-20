@@ -1,0 +1,8 @@
+---
+# *** LOGROTATE VARS ***
+rotate: 4
+compress: yes
+frequency: weekly
+mode: '0644'
+# *** END  LOGROTATE VARS ***
+

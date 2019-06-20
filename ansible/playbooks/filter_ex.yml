@@ -1,0 +1,13 @@
+---
+- hosts: control 
+  become: true
+  gather_facts: true
+  vars:
+      bar: booz
+  tasks: 
+      - set_fact:
+          myvar: "{{ myvar | default('blahblah') }}"
+     #- debug: msg="var is {{ myvar | default('blahblah') }}"
+      - debug: msg="var is {{ myvar }}"
+
+

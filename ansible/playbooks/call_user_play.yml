@@ -1,0 +1,10 @@
+---
+- hosts: phldvlxsand001
+  become: true
+  vars:
+    user_name: {{ userx }}
+    user_state: present
+    #ssh_key: ~/.ssh/id_rsa.pub
+    ssh_key: /etc/ansible/keys/default.pub
+  tasks:
+     - include_tasks: create_user_task.yml

@@ -1,0 +1,42 @@
+---
+#  see inv file: hosts-one-offs 
+#- hosts: rhel7-dev:rhel7-dev-dmz
+# will still print the group var values just not per each host in the group like above
+#- hosts: LINUX-SAND
+- hosts: control 
+  become: true
+  gather_facts: false
+  # order MATTERS, it will use the last one in the list:
+  vars_files:
+     - "../group_vars/PHL-PRD"
+     - "../group_vars/LINUX-SAND"
+  # from group vars file
+  vars:
+      bar: boobs
+  tasks: 
+    - debug: msg='THIS is {{ name_server }}'
+    #- debug: var=hostvars[groups['rhel7-dev'][0]]['timeout']
+    # access it directly so hosts must be set to the host or host group for this var:
+    #- debug: msg="timeout {{ timeout }}"
+    # works same way in group_vars/group dir and file
+    #- debug: var=hostvars[groups['rhel7-dev'][0]]['name_server']
+    - debug: var=hostvars[groups['PHL-DMZNONPRD'][0]]['name_server']
+    # same as above, dont have to qualify as long as var exists somewhere ( in the case group vars)
+    #- debug: var='name_server'
+    - debug: var='type'
+    # prints all vars 
+    #- debug: var=hostvars[groups['rhel7-dev'][0]]['timeout']
+    - name: test var value
+      debug: msg="var 'bar' eq or has string 'boo':"
+      #when: bar == "boobs"
+      # not:
+      #when: bar != "boobs"
+      when: bar.find("boo") != -1
+
+    - name: test empty 
+      shell: cat /tmp/fuzz.txt
+      register: output
+      ignore_errors: yes
+    - debug: msg="empty"
+      when: output.stdout == ""
+      

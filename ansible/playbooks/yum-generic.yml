@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  vars: 
+   packages: '{{ packages }}' # may be a list or scalar 
+   state: '{{ state }}' # latest|absent|installed.. see: https://docs.ansible.com/ansible/latest/modules/yum_module.html
+
+  tasks:
+  - name: yum stuff 
+    yum: name={{item}} state={{state}} 
+    with_items: '{{ packages }}'
+
+# examples:
+# work on a list(array) of pkgs
+# ansible-playbook yum-generic.yml -e "{packages: [firefox,nc]}" -e "state=latest"
+# work on a single pkg
+# ansible-playbook -i hostx yum-generic.yml -e "packages=firefox state=absent"
+# could also use prompts (like stdin) instead of passing vars:
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_prompts.html
+
+
+

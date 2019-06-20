@@ -1,0 +1,19 @@
+---
+- hosts: all
+  gather_facts: no
+  
+  tasks:
+   - name: Create directory
+     file:
+       path: /tmp/ansible_test
+       state: directory
+
+   - name: Create file
+     copy:
+       content: "things and stuff"
+       dest: /tmp/ansible_test/testperf
+
+   - name: Remove directory
+     file:
+       path: /tmp/ansible_test
+       state: absent

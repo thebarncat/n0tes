@@ -1,0 +1,6 @@
+domain kmhp.com
+{% for i in name_server %}
+nameserver {{ i }}
+{% endfor %}
+options timeout:2
+options attempts:1

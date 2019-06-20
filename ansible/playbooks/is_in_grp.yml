@@ -1,0 +1,18 @@
+- hosts: phldvlxoras039 
+  connection: local
+  vars:
+    wanted: ORACLE
+    
+  tasks:
+    - name: print groups   
+      debug: var=group_names 
+
+    - name: is in oracle    
+      shell: echo "is member of oracle"
+      when: "'ORACLE' in group_names"
+      #when: ('ORACLE' in group_names) or ('PROD' in group_names)
+
+  # - name: find in group     
+   #  shell: echo "is member of oracle"
+   #  need newer jinja2 for this filter
+   #  when: "groups['ORACLE'] | select('search', 'oras039') | list"

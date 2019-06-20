@@ -1,0 +1,29 @@
+#!/usr/bin/perl -w
+use strict;
+
+my $inv_file = '/etc/ansible/hosts.master';
+open(INV, "<", $inv_file) or die "can't read file: $!";
+
+my @stuff = <INV>;
+
+my $want = $ARGV[0];
+#my $want = 'phlprlxsand001';
+
+my $i = 0;
+my $pos;
+my %seen;
+for my $line (@stuff) {
+    $i++;
+	if ($line =~ /$want/) {
+		#print "$i:  $line";
+		$pos = $i;
+	    #print "at pos in array: $pos\n";
+		do { --$i } until $stuff[$i] =~ /^\[/;
+		#print $stuff[$i];
+		$seen{ $stuff[$i] }++;
+		$i = $pos;
+	}
+}
+print "$_" for keys %seen;
+
+

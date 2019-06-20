@@ -1,0 +1,16 @@
+---
+- hosts: cluster_nonprod
+  become: true
+
+  # copy the template over
+  tasks:
+    - name: ensure cman is running
+      systemd: name=cman state=started enabled=yes
+
+    - name: copy template 
+      copy:
+            src: /etc/ansible/files/cluster_etc_sysconfig_cman
+            dest: /etc/sysconfig/cman
+            owner: root
+            group: root
+            mode: 0644
