@@ -1,3 +1,0 @@
----
-# handlers file for common
-- include: /etc/ansible/roles/handlers.yml

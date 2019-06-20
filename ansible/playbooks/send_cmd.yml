@@ -1,9 +1,0 @@
----
-- hosts: appian-fw
-  become: true
-  tasks:
-   # - command: /bin/firewall-cmd --info-zone=public
-    - command: /bin/firewall-cmd --permanent --zone=public --add-port=1556/tcp 
-    - command: /bin/firewall-cmd --zone=public --add-port=1556/tcp
-    - command: /bin/firewall-cmd --permanent --zone=public --add-port=13724/tcp 
-    - command: /bin/firewall-cmd --zone=public --add-port=13724/tcp

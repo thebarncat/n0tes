@@ -1,2 +1,0 @@
-#Middleware repo, shared to Middleware jump servers
-#$/repo/dist/middleware phlprlxmdljmp001(rw,no_root_squash) rdgprlxmdljmp001(rw,no_root_squash) phldvlxmdlsnd002(rw,no_root_squash) #moved to nfs

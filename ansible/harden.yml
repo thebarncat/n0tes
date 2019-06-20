@@ -1,8 +1,0 @@
----
-### OS hardening configuration  all hosts ###
-
-- hosts: '{{ host_grp }}'
-  become: true
-  #gather_facts: false
-  roles:
-    - harden

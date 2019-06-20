@@ -1,2 +1,0 @@
-name_server: [10.7.0.38,10.5.112.16] 
-ansible_become_method: sudo

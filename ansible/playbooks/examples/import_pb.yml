@@ -1,9 +1,0 @@
----
-- hosts: phldvlxsand001
-  tasks: 
-  - shell: echo "hello newman"
-
-# must be outside of a play: https://docs.ansible.com/ansible/latest/modules/import_playbook_module.html
-- import_playbook: xx.yml
-  tags:
-   - common

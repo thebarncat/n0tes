@@ -1,7 +1,0 @@
-- hosts: "{{ ahost }}"
-  connection: local
-  tasks:
-    #- debug: msg="{{ahost}} is in"
-    - name: which groups  
-      command: echo {{ item }}
-      with_items: "{{group_names}}"

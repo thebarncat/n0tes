@@ -1,3 +1,0 @@
-#ansible_dir: /etc/ansible
-#playbook_dir: /etc/ansible/playbooks
-#test: "hey there..."

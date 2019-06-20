@@ -1,5 +1,0 @@
-[local-rpms]
-name=Local - Built RPMS (Based on x86_64 RHEL/CentOS 6)
-baseurl=http://repo:linuxadmin@rdgprlxrepo001.kmhp.com/local/x86_64
-enabled=1
-gpgcheck=0

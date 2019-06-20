@@ -1,8 +1,0 @@
-- hosts: localhost
-  tasks:
-    - name: use ansible.env
-      debug: var=ansible_env.ANSIBLE_HOME
-
-    - name: or like this 
-      debug: var=lookup('env','ANSIBLE_HOME')
-

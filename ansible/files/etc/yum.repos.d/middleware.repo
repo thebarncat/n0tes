@@ -1,5 +1,0 @@
-[local-middleware]
-name=Local - Middleware RPMS
-baseurl=http://phlprlxrepo001.kmhp.com/middleware/
-enabled=0
-gpgcheck=0
