@@ -1,4 +1,4 @@
 # n0tes
-notes about git
+notes about stuff
 
 
